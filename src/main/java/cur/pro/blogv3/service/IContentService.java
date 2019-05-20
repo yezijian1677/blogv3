@@ -10,9 +10,9 @@ public interface IContentService {
     /**
      * 发表文章
      *
-     * @param commentVo
+     * @param contentVo
      */
-    void publish(CommentVo commentVo);
+    void publish(ContentVo contentVo);
 
     /**
      * 查询文章
