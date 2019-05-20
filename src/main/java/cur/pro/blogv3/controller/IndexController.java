@@ -79,7 +79,7 @@ public class IndexController extends BaseController {
         return this.render("post");
     }
 
-    
+
 
 
 }
