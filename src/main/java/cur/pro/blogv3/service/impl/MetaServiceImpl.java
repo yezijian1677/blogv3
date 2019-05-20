@@ -12,13 +12,17 @@ import cur.pro.blogv3.modal.Vo.RelationshipVoKey;
 import cur.pro.blogv3.service.IContentService;
 import cur.pro.blogv3.service.IMetaService;
 import cur.pro.blogv3.service.IRelationshipService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
+@Slf4j
 public class MetaServiceImpl implements IMetaService {
 
     @Resource
