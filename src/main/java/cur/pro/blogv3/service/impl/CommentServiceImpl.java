@@ -1,5 +1,6 @@
 package cur.pro.blogv3.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import cur.pro.blogv3.dao.CommentVoMapper;
 import cur.pro.blogv3.exception.TipException;
@@ -16,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -64,26 +67,90 @@ public class CommentServiceImpl implements ICommentService {
 
     @Override
     public PageInfo<CommentBo> getComments(Integer cid, int page, int limit) {
+
+        if (null != cid) {
+            PageHelper.startPage(page, limit);
+            CommentVoExample commentVoExample = new CommentVoExample();
+            commentVoExample.createCriteria().andCidEqualTo(cid).andParentEqualTo(0);
+            commentVoExample.setOrderByClause("coid desc");
+            List<CommentVo> parents = commentVoMapper.selectByExampleWithBLOBs(commentVoExample);
+            PageInfo<CommentVo> commentVoPageInfo = new PageInfo<>(parents);
+            PageInfo<CommentBo> returnBo = copyPageInfo(commentVoPageInfo);
+            if (parents.size() != 0) {
+                List<CommentBo> commentBos = new ArrayList<>(parents.size());
+                parents.forEach(parent->{
+                    CommentBo commentBo = new CommentBo(parent);
+                    commentBos.add(commentBo);
+                });
+                returnBo.setList(commentBos);
+            }
+            return returnBo;
+        }
         return null;
     }
 
     @Override
     public PageInfo<CommentVo> getCommentsWithPage(CommentVoExample commentVoExample, int page, int limit) {
-        return null;
+        PageHelper.startPage(page, limit);
+        List<CommentVo> commentVos = commentVoMapper.selectByExampleWithBLOBs(commentVoExample);
+        PageInfo<CommentVo> pageInfo = new PageInfo<>(commentVos);
+
+        return pageInfo;
     }
 
     @Override
     public CommentVo getCommentById(Integer coid) {
+        if (null != coid) {
+            return commentVoMapper.selectByPrimaryKey(coid);
+        }
         return null;
     }
 
     @Override
     public void delete(Integer coid, Integer cid) {
-
+        if (null == coid) {
+            throw new TipException("主键为空");
+        }
+        commentVoMapper.deleteByPrimaryKey(coid);
+        ContentVo contents = contentService.getContents(cid + "");
+        if (null != contents && contents.getCommentsNum() > 0) {
+            ContentVo temp = new ContentVo();
+            temp.setCid(cid);
+            temp.setCommentsNum(contents.getCommentsNum() - 1);
+            contentService.updateContentByCid(temp);
+        }
     }
 
     @Override
     public void update(CommentVo commentVo) {
+        if (null != commentVo && null != commentVo.getCoid()) {
+            commentVoMapper.updateByPrimaryKeyWithBLOBs(commentVo);
+        }
+    }
 
+    /**
+     * copy原有的分页信息，除数据
+     *
+     * @param ordinal
+     * @param <T>
+     * @return
+     */
+    private <T> PageInfo<T> copyPageInfo(PageInfo ordinal) {
+        PageInfo<T> returnBo = new PageInfo<T>();
+        returnBo.setPageSize(ordinal.getPageSize());
+        returnBo.setPageNum(ordinal.getPageNum());
+        returnBo.setEndRow(ordinal.getEndRow());
+        returnBo.setTotal(ordinal.getTotal());
+        returnBo.setHasNextPage(ordinal.isHasNextPage());
+        returnBo.setHasPreviousPage(ordinal.isHasPreviousPage());
+        returnBo.setIsFirstPage(ordinal.isIsFirstPage());
+        returnBo.setIsLastPage(ordinal.isIsLastPage());
+        returnBo.setNavigateFirstPage(ordinal.getNavigateFirstPage());
+        returnBo.setNavigateLastPage(ordinal.getNavigateLastPage());
+        returnBo.setNavigatepageNums(ordinal.getNavigatepageNums());
+        returnBo.setSize(ordinal.getSize());
+        returnBo.setPrePage(ordinal.getPrePage());
+        returnBo.setNextPage(ordinal.getNextPage());
+        return returnBo;
     }
 }
