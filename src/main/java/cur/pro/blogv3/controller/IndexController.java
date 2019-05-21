@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -332,9 +333,77 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = "search/{keyword}/{page}")
     public String search(HttpServletRequest request, @PathVariable String keyword,@PathVariable int page, @RequestParam(value = "limit", defaultValue = "12") int limit){
+        page = page < 0 || page > WebConst.MAX_PAGE ? 1 : page;
+        PageInfo<ContentVo> articles = contentService.getArticles(keyword, page ,limit);
+        request.setAttribute("articles", articles);
+        request.setAttribute("type", "搜索");
+        request.setAttribute("keyword", keyword);
 
+        return this.render("page-category");
     }
 
 
+    /**
+     * 文章点击率
+     * @param cid
+     * @param chits
+     */
+    @Transactional
+    protected void updateArticleHit(Integer cid, Integer chits) {
+        Integer hits = cache.hget("article", "hits");
+        if (chits == null) {
+            chits = 0;
+        }
+        hits = null == hits ? 1 : hits + 1;
+        if (hits >= WebConst.HIT_EXCEED) {
+            ContentVo temp = new ContentVo();
+            temp.setCid(cid);
+            temp.setHits(chits + hits);
+            contentService.updateContentByCid(temp);
+            cache.hset("article", "hist", 1);
+        } else {
+            cache.hset("article", "hits", hits);
+
+        }
+    }
+
+    /**
+     * 标签页
+     * @param request
+     * @param name
+     * @param limit
+     * @return
+     */
+    @GetMapping(value = "tag/{name}")
+    public String tags(HttpServletRequest request, @PathVariable String name, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        return this.tags(request, name, 1, limit);
+    }
+
+    @GetMapping(value = "tag/{name}/{page}")
+    public String tags(HttpServletRequest request, @PathVariable String name, @PathVariable int page,
+                       @RequestParam(value = "limit", defaultValue = "12") int limit) {
+        page = page < 0 || page > WebConst.MAX_PAGE ? 1 : page;
+        //blank
+        name = name.replaceAll("\\+", " ");
+        MetaDto metaDto = metaService.getMeta(Types.TAG.getType(), name);
+        if (null == metaDto) {
+            return this.render_404();
+        }
+
+        PageInfo<ContentVo> contentVoPageInfo = contentService.getArticles(metaDto.getMid(), page, limit);
+        request.setAttribute("articles", contentVoPageInfo);
+        request.setAttribute("meta", metaDto);
+        request.setAttribute("type", "标签");
+        request.setAttribute("keyword", name);
+
+        return this.render("page-category");
+    }
+
+    private void cookie(String name, String value, int maxAge, HttpServletResponse response) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setMaxAge(maxAge);
+        cookie.setSecure(false);
+        response.addCookie(cookie);
+    }
 
 }
