@@ -25,6 +25,7 @@ public class AttachServiceImpl implements IAttachService {
     public PageInfo<AttachVo> getAttachs(Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
         AttachVoExample example = new AttachVoExample();
+        //条件查询，根据id递减
         example.setOrderByClause("id desc");
         List<AttachVo> attachVos = attachVoMapper.selectByExample(example);
         return new PageInfo<>(attachVos);

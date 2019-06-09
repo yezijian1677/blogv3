@@ -543,3 +543,31 @@
 2019-05-21 21:07:38.955 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.LogServiceImpl - Enter get Logs method: page=1, limit=5
 2019-05-21 21:07:38.956 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.LogServiceImpl - Exit getLogs method
 2019-05-21 21:07:38.957 [http-nio-8081-exec-4] INFO  cur.pro.blogv3.controller.admin.IndexController - Exit admin index method
+2019-06-04 16:47:49.768 [http-nio-8081-exec-1] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Enter getContents method
+2019-06-04 16:47:49.913 [http-nio-8081-exec-1] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Eit getContents method
+2019-06-04 16:48:15.613 [http-nio-8081-exec-6] INFO  cur.pro.blogv3.controller.admin.IndexController - Enter admin index method
+2019-06-04 16:48:15.613 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Enter recentComments method:limit=5
+2019-06-04 16:48:15.621 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Exit recentComments method
+2019-06-04 16:48:15.621 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Enter recentContents method
+2019-06-04 16:48:15.626 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Exit recentContents method
+2019-06-04 16:48:15.626 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Enter getStatistics method
+2019-06-04 16:48:15.638 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Exit getStatistics method
+2019-06-04 16:48:15.638 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.LogServiceImpl - Enter get Logs method: page=1, limit=5
+2019-06-04 16:48:15.644 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.LogServiceImpl - Exit getLogs method
+2019-06-04 16:48:15.644 [http-nio-8081-exec-6] INFO  cur.pro.blogv3.controller.admin.IndexController - Exit admin index method
+2019-06-04 16:49:58.927 [http-nio-8081-exec-4] INFO  cur.pro.blogv3.controller.admin.IndexController - Enter admin index method
+2019-06-04 16:49:58.927 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Enter recentComments method:limit=5
+2019-06-04 16:49:58.929 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Exit recentComments method
+2019-06-04 16:49:58.929 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Enter recentContents method
+2019-06-04 16:49:58.934 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Exit recentContents method
+2019-06-04 16:49:58.934 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Enter getStatistics method
+2019-06-04 16:49:58.943 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.SiteServiceImpl - Exit getStatistics method
+2019-06-04 16:49:58.943 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.LogServiceImpl - Enter get Logs method: page=1, limit=5
+2019-06-04 16:49:58.945 [http-nio-8081-exec-4] DEBUG cur.pro.blogv3.service.impl.LogServiceImpl - Exit getLogs method
+2019-06-04 16:49:58.945 [http-nio-8081-exec-4] INFO  cur.pro.blogv3.controller.admin.IndexController - Exit admin index method
+2019-06-04 16:50:00.650 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Enter getContents method
+2019-06-04 16:50:00.656 [http-nio-8081-exec-6] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Eit getContents method
+2019-06-04 16:50:19.949 [http-nio-8081-exec-5] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Enter getContents method
+2019-06-04 16:50:19.954 [http-nio-8081-exec-5] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Eit getContents method
+2019-06-04 16:55:34.469 [http-nio-8080-exec-1] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Enter getContents method
+2019-06-04 16:55:34.540 [http-nio-8080-exec-1] DEBUG cur.pro.blogv3.service.impl.ContentServiceImpl - Eit getContents method
