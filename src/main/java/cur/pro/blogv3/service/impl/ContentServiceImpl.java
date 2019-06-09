@@ -96,8 +96,11 @@ public class ContentServiceImpl implements IContentService {
     public PageInfo<ContentVo> getContents(Integer p, Integer limit) {
         log.debug("Enter getContents method");
         ContentVoExample example = new ContentVoExample();
+
+        //根据创建时间查询type=article 状态为已发布的文章
         example.setOrderByClause("created desc");
         example.createCriteria().andTypeEqualTo(Types.ARTICLE.getType()).andStatusEqualTo(Types.PUBLISH.getType());
+
         PageHelper.startPage(p, limit);
         List<ContentVo> data = contentVoMapper.selectByExampleWithBLOBs(example);
         PageInfo<ContentVo> pageInfo = new PageInfo<>(data);
