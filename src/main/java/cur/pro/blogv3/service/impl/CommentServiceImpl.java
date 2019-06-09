@@ -58,6 +58,7 @@ public class CommentServiceImpl implements ICommentService {
         commentVo.setCreated(DateKit.getCurrentUnixTime());
         commentVoMapper.insertSelective(commentVo);
 
+        //更新评论所属文章的状态
         ContentVo temp = new ContentVo();
         temp.setCid(contents.getCid());
         temp.setCommentsNum(contents.getCommentsNum() + 1);
@@ -70,9 +71,11 @@ public class CommentServiceImpl implements ICommentService {
 
         if (null != cid) {
             PageHelper.startPage(page, limit);
+
             CommentVoExample commentVoExample = new CommentVoExample();
             commentVoExample.createCriteria().andCidEqualTo(cid).andParentEqualTo(0);
             commentVoExample.setOrderByClause("coid desc");
+
             List<CommentVo> parents = commentVoMapper.selectByExampleWithBLOBs(commentVoExample);
             PageInfo<CommentVo> commentVoPageInfo = new PageInfo<>(parents);
             PageInfo<CommentBo> returnBo = copyPageInfo(commentVoPageInfo);
@@ -112,6 +115,8 @@ public class CommentServiceImpl implements ICommentService {
             throw new TipException("主键为空");
         }
         commentVoMapper.deleteByPrimaryKey(coid);
+
+        //减少content下的评论数量
         ContentVo contents = contentService.getContents(cid + "");
         if (null != contents && contents.getCommentsNum() > 0) {
             ContentVo temp = new ContentVo();
